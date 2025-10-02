@@ -22,7 +22,7 @@ const Topbar = () => {
           alt="AutoInsight Logo"
         />
         <span className="text-xl font-semibold text-gray-800 hidden sm:block">
-          AutoInsight
+          SATARK
         </span>
       </div>
 
