@@ -17,7 +17,7 @@ const Topbar = () => {
       {/* Logo Section */}
       <div className="flex items-center gap-2">
         <img
-          src="/AutoInsight.png"
+          src="/vite.svg"
           className="h-10 w-10 rounded-lg"
           alt="AutoInsight Logo"
         />
