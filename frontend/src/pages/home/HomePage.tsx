@@ -7,9 +7,9 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-background">
       <ScrollArea className="h-screen">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
-          {/* Income & Expenses Chart */}
-          <div className="w-full aspect-video min-h-[300px] bg-card rounded-xl border shadow-sm p-4 lg:p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
+          {/* Income & Expenses Chart - Extra large */}
+          <div className="w-full min-h-[450px] lg:min-h-[550px] xl:min-h-[600px] bg-card rounded-xl border shadow-sm p-6">
             <div className="flex flex-col h-full">
               <h2 className="text-xl font-semibold text-foreground mb-4">
                 Income vs Expenses
@@ -20,8 +20,8 @@ const HomePage = () => {
             </div>
           </div>
 
-          {/* Pie Chart */}
-          <div className="w-full aspect-video min-h-[300px] bg-card rounded-xl border shadow-sm p-4 lg:p-6">
+          {/* Pie Chart - Extra large */}
+          <div className="w-full min-h-[450px] lg:min-h-[550px] xl:min-h-[600px] bg-card rounded-xl border shadow-sm p-6">
             <div className="flex flex-col h-full">
               <h2 className="text-xl font-semibold text-foreground mb-4">
                 Spending Distribution
@@ -32,8 +32,8 @@ const HomePage = () => {
             </div>
           </div>
 
-          {/* XY Chart - Full width */}
-          <div className="w-full aspect-video min-h-[400px] bg-card rounded-xl border shadow-sm p-4 lg:p-6 lg:col-span-2">
+          {/* XY Chart - Extra large */}
+          <div className="w-full min-h-[550px] lg:min-h-[650px] xl:min-h-[700px] bg-card rounded-xl border shadow-sm p-6 lg:col-span-2">
             <div className="flex flex-col h-full">
               <h2 className="text-xl font-semibold text-foreground mb-4">
                 Financial Trends

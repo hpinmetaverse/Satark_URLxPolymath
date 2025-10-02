@@ -37,7 +37,8 @@ const Pie = () => {
       stroke: am5.color(0xffffff),
     });
 
-    series.labelsContainer.set("paddingTop", 30);
+    // Increased label padding for better visibility with larger chart
+    series.labelsContainer.set("paddingTop", 40);
 
     // Slice radius adapters
     series.slices.template.adapters.add("radius", function (radius, target) {
@@ -61,13 +62,13 @@ const Pie = () => {
       { value: 3, category: "Six" },
     ]);
 
-    // Create legend
+    // Create legend with better positioning for larger chart
     let legend = chart.children.push(
       am5.Legend.new(root, {
         centerX: am5.p50,
         x: am5.p50,
-        marginTop: 15,
-        marginBottom: 15,
+        marginTop: 25,
+        marginBottom: 25,
       })
     );
 

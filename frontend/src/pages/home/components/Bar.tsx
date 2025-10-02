@@ -24,6 +24,10 @@ const Bar = () => {
       })
     );
 
+    // Responsive font sizes
+    root.interfaceColors.set("grid", am5.color(0x000000));
+    root.interfaceColors.set("grid", am5.color(0x000000));
+
     chart.set(
       "scrollbarX",
       am5.Scrollbar.new(root, { orientation: "horizontal" })
@@ -61,6 +65,7 @@ const Bar = () => {
       minorGridEnabled: true,
       minGridDistance: 60,
     });
+
     let xAxis = chart.xAxes.push(
       am5xy.CategoryAxis.new(root, {
         categoryField: "year",
