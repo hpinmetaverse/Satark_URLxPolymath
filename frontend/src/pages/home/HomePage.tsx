@@ -1,9 +1,15 @@
-import IncomeExpensesChart from "./components/IncomeExpensesChart";
+import IncomeExpensesChart from "./components/Bar";
+import Pie from "./components/Pie";
+import XY from "./components/XY";
 
 const HomePage = () => {
   return (
     <div className="text-red-400">
-      <IncomeExpensesChart />
+      <span>
+        <IncomeExpensesChart />
+      </span>
+      <Pie />
+      <XY />
     </div>
   );
 };
