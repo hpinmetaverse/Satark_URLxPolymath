@@ -1,13 +1,13 @@
 import "./App.css";
-import { Routes } from "react-router-dom";
-import { Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 import Topbar from "./components/Navbar";
 import NotFound from "./pages/404/NotFound";
 function App() {
+  const location = useLocation();
   return (
     <>
-      <Topbar />
+      {location.pathname === "/" && <Topbar />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<NotFound />} />
