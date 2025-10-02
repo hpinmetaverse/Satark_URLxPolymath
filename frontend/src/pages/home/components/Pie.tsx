@@ -41,15 +41,10 @@ const Pie = () => {
     series.labelsContainer.set("paddingTop", 40);
 
     // Slice radius adapters
-    series.slices.template.adapters.add("radius", function (radius, target) {
-      let dataItem = target.dataItem;
-      let high = series.getPrivate("valueHigh");
-
-      if (dataItem) {
-        let value = target.dataItem.get("valueWorking", 0);
-        return (radius * value) / high;
-      }
-      return radius;
+    series.slices.template.adapters.add("radius", (radius, target) => {
+      const high = (series.getPrivate("valueHigh") as number) ?? 1;
+      const value = (target.dataItem?.get("valueWorking") as number) ?? 0;
+      return (radius * value) / high;
     });
 
     // Set data

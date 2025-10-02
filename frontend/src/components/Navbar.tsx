@@ -28,6 +28,7 @@ const Topbar = () => {
 
       {/* Right Section */}
       <div className="flex items-center gap-4">
+        {/* Export Button */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -49,6 +50,18 @@ const Topbar = () => {
             <DropdownMenuItem>JSON</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+        {/* Upload PCAP Button */}
+        <label
+          htmlFor="pcap-upload"
+          className="bg-gray-300 hover:bg-white/100 
+     text-gray-800 font-medium 
+     rounded-xl px-5 py-2.5 shadow-md backdrop-blur-sm transition 
+     duration-200 cursor-pointer"
+        >
+          Upload PCAP
+        </label>
+        <input id="pcap-upload" type="file" accept=".pcap" className="hidden" />
       </div>
     </nav>
   );

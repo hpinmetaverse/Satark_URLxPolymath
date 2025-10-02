@@ -1,8 +1,7 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import IncomeExpensesChart from "./components/Bar";
 import Pie from "./components/Pie";
 import XY from "./components/XY";
-import Footer from "../footer/footer";
+import Footer from "../footer/Footer";
+import Bar from "./components/Bar";
 
 const HomePage = () => {
   return (
@@ -15,7 +14,7 @@ const HomePage = () => {
               Income vs Expenses
             </h2>
             <div className="flex-1 min-h-0">
-              <IncomeExpensesChart />
+              <Bar />
             </div>
           </div>
         </div>
