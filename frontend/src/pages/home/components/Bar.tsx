@@ -1,11 +1,15 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useRef } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
-const IncomeExpensesChart = () => {
+const Bar = () => {
+  const chartRef = useRef<HTMLDivElement>(null);
+
   useLayoutEffect(() => {
-    let root = am5.Root.new("chartdiv");
+    if (!chartRef.current) return;
+
+    let root = am5.Root.new(chartRef.current);
 
     root.setThemes([am5themes_Animated.new(root)]);
 
@@ -135,15 +139,18 @@ const IncomeExpensesChart = () => {
     );
     legend.data.setAll(chart.series.values);
 
+    // Make chart responsive
+    root.resize();
+
     chart.appear(1000, 100);
     series1.appear();
 
     return () => {
-      root.dispose(); // cleanup on unmount
+      root.dispose();
     };
   }, []);
 
-  return <div id="chartdiv" style={{ width: "50%", height: "500px" }}></div>;
+  return <div ref={chartRef} className="w-full h-full" />;
 };
 
-export default IncomeExpensesChart;
+export default Bar;

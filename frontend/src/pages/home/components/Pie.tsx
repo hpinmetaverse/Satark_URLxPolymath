@@ -4,9 +4,11 @@ import * as am5percent from "@amcharts/amcharts5/percent";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
 const Pie = () => {
-  const chartRef = useRef(null);
+  const chartRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
+    if (!chartRef.current) return;
+
     // Create root element
     const root = am5.Root.new(chartRef.current);
 
@@ -71,6 +73,9 @@ const Pie = () => {
 
     legend.data.setAll(series.dataItems);
 
+    // Make chart responsive
+    root.resize();
+
     // Animate
     series.appear(1000, 100);
 
@@ -80,7 +85,7 @@ const Pie = () => {
     };
   }, []);
 
-  return <div ref={chartRef} style={{ width: "50%", height: "500px" }} />;
+  return <div ref={chartRef} className="w-full h-full" />;
 };
 
 export default Pie;

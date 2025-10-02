@@ -4,9 +4,11 @@ import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
 const XY = () => {
-  const chartRef = useRef(null);
+  const chartRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
+    if (!chartRef.current) return;
+
     // Create root element
     const root = am5.Root.new(chartRef.current);
 
@@ -54,7 +56,7 @@ const XY = () => {
       };
     }
 
-    function generateDatas(count) {
+    function generateDatas(count: number) {
       let data = [];
       for (let i = 0; i < count; ++i) {
         data.push(generateData());
@@ -130,7 +132,7 @@ const XY = () => {
       })
     );
 
-    legend.itemContainers.template.events.on("pointerover", function (e) {
+    legend.itemContainers.template.events.on("pointerover", function (e: any) {
       let series = e.target.dataItem.dataContext;
       chart.series.each(function (chartSeries) {
         if (chartSeries !== series) {
@@ -162,6 +164,9 @@ const XY = () => {
 
     legend.data.setAll(chart.series.values);
 
+    // Make chart responsive
+    root.resize();
+
     // Animate chart
     chart.appear(1000, 100);
 
@@ -171,7 +176,7 @@ const XY = () => {
     };
   }, []);
 
-  return <div ref={chartRef} style={{ width: "100%", height: "500px" }} />;
+  return <div ref={chartRef} className="w-full h-full" />;
 };
 
 export default XY;
