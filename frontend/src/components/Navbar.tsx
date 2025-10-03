@@ -2,7 +2,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -32,29 +31,6 @@ const Topbar = () => {
 
       {/* Right Section (Desktop) */}
       <div className="hidden md:flex items-center gap-4">
-        {/* Export Dropdown */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              className="bg-gray-300 hover:bg-white/100 
-             text-gray-800 font-medium 
-             rounded-xl px-5 py-2.5 shadow-md backdrop-blur-sm transition 
-             duration-200"
-            >
-              EXPORT
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="end"
-            className="w-40 rounded-xl shadow-md"
-          >
-            <DropdownMenuLabel>Format</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>CSV</DropdownMenuItem>
-            <DropdownMenuItem>JSON</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-
         <Link to="/uploadpcap">
           <Button
             className="bg-gray-300 hover:bg-white/100 
@@ -101,27 +77,6 @@ const Topbar = () => {
             <DropdownMenuItem asChild>
               <Link to="/contact">Contact</Link>
             </DropdownMenuItem>
-
-            <DropdownMenuSeparator />
-
-            {/* Export Section */}
-            <DropdownMenuLabel>Export in diff Formats</DropdownMenuLabel>
-            <div className="flex flex-col gap-1 px-2 py-1">
-              <Button
-                variant="outline"
-                size="sm"
-                className="justify-start w-full"
-              >
-                CSV
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="justify-start w-full"
-              >
-                JSON
-              </Button>
-            </div>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

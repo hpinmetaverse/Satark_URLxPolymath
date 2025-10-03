@@ -15,9 +15,7 @@ function App() {
     location.pathname === "/contact" ||
     location.pathname === "/uploadpcap";
   const showFooter =
-    location.pathname === "/" ||
-    location.pathname === "/contact" ||
-    location.pathname === "/uploadpcap";
+    location.pathname === "/" || location.pathname === "/contact";
 
   return (
     <>
