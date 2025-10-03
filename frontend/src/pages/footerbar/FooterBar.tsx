@@ -1,4 +1,4 @@
-const Footer = () => {
+const FooterBar = () => {
   return (
     <nav
       className="flex items-center justify-center px-6 py-6 
@@ -22,4 +22,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default FooterBar;

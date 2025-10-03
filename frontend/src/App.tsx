@@ -4,8 +4,8 @@ import HomePage from "./pages/home/HomePage";
 import NotFound from "./pages/404/NotFound";
 import Contact from "./pages/contact/Contact";
 import Topbar from "./components/Navbar";
-import Footer from "./pages/footer/Footer";
 import PcapUpload from "./pages/pcap/PcapUpload";
+import FooterBar from "./pages/footerbar/FooterBar";
 
 function App() {
   const location = useLocation();
@@ -26,7 +26,7 @@ function App() {
         <Route path="/uploadpcap" element={<PcapUpload />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {showFooter && <Footer />}
+      {showFooter && <FooterBar />}
     </>
   );
 }

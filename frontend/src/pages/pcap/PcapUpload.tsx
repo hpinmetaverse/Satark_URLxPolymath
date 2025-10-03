@@ -1,9 +1,10 @@
 import React, { useCallback, useState, useRef, useLayoutEffect } from "react";
 import { Trash2 } from "lucide-react";
-import Footer from "../footer/Footer";
+
 import * as am5 from "@amcharts/amcharts5";
 import * as am5percent from "@amcharts/amcharts5/percent";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+import FooterBar from "../footerbar/FooterBar";
 
 type UploadStatus =
   | "idle"
@@ -480,7 +481,7 @@ export default function PcapUpload() {
         )}
       </main>
 
-      <Footer />
+      <FooterBar />
     </div>
   );
 }
