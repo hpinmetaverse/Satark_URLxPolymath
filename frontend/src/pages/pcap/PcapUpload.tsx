@@ -63,9 +63,17 @@ const PieChart = ({
     series.labels.template.set("fontSize", 12);
 
     series.slices.template.adapters.add("radius", (radius, target) => {
+      // Ensure radius is a number
+      const r = radius ?? 0;
+
+      // Access your custom field safely
+      const value =
+        ((target.dataItem as any)?.get("valueWorking") as number) ?? 0;
+
+      // Get series high value safely
       const high = (series.getPrivate("valueHigh") as number) ?? 1;
-      const value = (target.dataItem?.get("valueWorking") as number) ?? 0;
-      return (radius * value) / high;
+
+      return (r * value) / high;
     });
 
     series.data.setAll(data);
@@ -82,9 +90,8 @@ const PieChart = ({
 
     // Responsive legend settings
     legend.labels.template.setAll({
-      fontSize: 12,
+      fontSize: 8,
       maxWidth: 120,
-      textOverflow: "ellipsis",
     });
 
     legend.data.setAll(series.dataItems);
@@ -146,9 +153,9 @@ const PieChart = ({
 // Main Component
 export default function PcapUpload() {
   const [file, setFile] = useState<File | null>(null);
-  const [error, setError] = useState<string | null>(null);
+
   const [status, setStatus] = useState<UploadStatus>("idle");
-  const [progress, setProgress] = useState<number>(0);
+
   const [results, setResults] = useState<AttackResult[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -166,7 +173,6 @@ export default function PcapUpload() {
   };
 
   const validateFile = useCallback((f: File) => {
-    setError(null);
     const lower = f.name.toLowerCase();
     if (!ALLOWED_EXT.some((ext) => lower.endsWith(ext))) {
       return "Invalid file type. Only .pcap and .pcapng allowed.";
@@ -182,12 +188,11 @@ export default function PcapUpload() {
       const err = validateFile(f);
       if (err) {
         setFile(null);
-        setError(err);
+
         return;
       }
       setFile(f);
-      setError(null);
-      setProgress(0);
+
       setStatus("idle");
       setResults([]);
     },
@@ -209,15 +214,12 @@ export default function PcapUpload() {
   const handleAnalyze = () => {
     if (!file) return;
     setStatus("uploading");
-    setProgress(30);
 
     setTimeout(() => {
       setStatus("processing");
-      setProgress(70);
 
       setTimeout(() => {
         setStatus("done");
-        setProgress(100);
 
         setResults([
           {
@@ -388,7 +390,6 @@ export default function PcapUpload() {
                 <button
                   onClick={() => {
                     setFile(null);
-                    setError(null);
                   }}
                   className="p-2 rounded-md text-red-600 hover:bg-red-100 flex items-center justify-center"
                 >

@@ -43,8 +43,9 @@ const Pie = () => {
     // Slice radius adapters
     series.slices.template.adapters.add("radius", (radius, target) => {
       const high = (series.getPrivate("valueHigh") as number) ?? 1;
-      const value = (target.dataItem?.get("valueWorking") as number) ?? 0;
-      return (radius * value) / high;
+      const value =
+        ((target.dataItem as any)?.get("valueWorking") as number) ?? 0;
+      return ((radius ?? 0) * value) / high;
     });
 
     // Set data
