@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Topbar = () => {
   return (
@@ -16,14 +17,16 @@ const Topbar = () => {
     >
       {/* Logo Section */}
       <div className="flex items-center gap-2">
-        <img
-          src="/vite.svg"
-          className="h-10 w-10 rounded-lg"
-          alt="AutoInsight Logo"
-        />
-        <span className="text-xl font-semibold text-gray-800 hidden sm:block">
-          SATARK
-        </span>
+        <Link to="/" className="flex items-center gap-2">
+          <img
+            src="/vite.svg"
+            className="h-10 w-10 rounded-lg"
+            alt="AutoInsight Logo"
+          />
+          <span className="text-xl font-semibold text-gray-800 hidden sm:block">
+            SATARK
+          </span>
+        </Link>
       </div>
 
       {/* Right Section */}
@@ -51,17 +54,19 @@ const Topbar = () => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* Upload PCAP Button */}
-        <label
-          htmlFor="pcap-upload"
-          className="bg-gray-300 hover:bg-white/100 
-     text-gray-800 font-medium 
-     rounded-xl px-5 py-2.5 shadow-md backdrop-blur-sm transition 
-     duration-200 cursor-pointer"
-        >
-          Upload PCAP
-        </label>
         <input id="pcap-upload" type="file" accept=".pcap" className="hidden" />
+
+        {/* Contact Button */}
+        <Link to="/contact">
+          <Button
+            className="bg-gray-300 hover:bg-white/100 
+             text-gray-800 font-medium 
+             rounded-xl px-5 py-2.5 shadow-md backdrop-blur-sm transition 
+             duration-200"
+          >
+            Contact
+          </Button>
+        </Link>
       </div>
     </nav>
   );

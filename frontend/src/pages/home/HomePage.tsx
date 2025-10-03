@@ -1,6 +1,5 @@
 import Pie from "./components/Pie";
 import XY from "./components/XY";
-import Footer from "../footer/Footer";
 import Bar from "./components/Bar";
 
 const HomePage = () => {
@@ -43,8 +42,6 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };
