@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Menu } from "lucide-react"; // Hamburger icon
 
 const Topbar = () => {
   return (
@@ -21,7 +22,7 @@ const Topbar = () => {
           <img
             src="/vite.svg"
             className="h-10 w-10 rounded-lg"
-            alt="AutoInsight Logo"
+            alt="Satark Logo"
           />
           <span className="text-xl font-semibold text-gray-800 hidden sm:block">
             SATARK
@@ -29,9 +30,9 @@ const Topbar = () => {
         </Link>
       </div>
 
-      {/* Right Section */}
-      <div className="flex items-center gap-4">
-        {/* Export Button */}
+      {/* Right Section (Desktop) */}
+      <div className="hidden md:flex items-center gap-4">
+        {/* Export Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -54,8 +55,16 @@ const Topbar = () => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <input id="pcap-upload" type="file" accept=".pcap" className="hidden" />
-
+        <Link to="/uploadpcap">
+          <Button
+            className="bg-gray-300 hover:bg-white/100 
+             text-gray-800 font-medium 
+             rounded-xl px-5 py-2.5 shadow-md backdrop-blur-sm transition 
+             duration-200"
+          >
+            Upload Pcap
+          </Button>
+        </Link>
         {/* Contact Button */}
         <Link to="/contact">
           <Button
@@ -67,6 +76,54 @@ const Topbar = () => {
             Contact
           </Button>
         </Link>
+      </div>
+
+      {/* Mobile Menu */}
+      <div className="md:hidden">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full hover:bg-gray-200"
+            >
+              <Menu className="h-6 w-6 text-gray-800" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="w-48 rounded-xl shadow-md"
+          >
+            {/* Main Actions */}
+            <DropdownMenuItem asChild>
+              <Link to="/uploadpcap">Upload Pcap</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link to="/contact">Contact</Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuSeparator />
+
+            {/* Export Section */}
+            <DropdownMenuLabel>Export in diff Formats</DropdownMenuLabel>
+            <div className="flex flex-col gap-1 px-2 py-1">
+              <Button
+                variant="outline"
+                size="sm"
+                className="justify-start w-full"
+              >
+                CSV
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="justify-start w-full"
+              >
+                JSON
+              </Button>
+            </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </nav>
   );
