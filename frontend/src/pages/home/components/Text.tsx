@@ -2,7 +2,7 @@ export default function Text() {
   return (
     <div className="max-w-6xl mx-auto p-4 sm:p-6 text-center mt-6">
       {/* Heading */}
-      <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-400 tracking-wide mb-6">
+      <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-700 tracking-wide mb-6">
         SatarkURL
       </h1>
 
