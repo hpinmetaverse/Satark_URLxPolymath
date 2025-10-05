@@ -186,24 +186,19 @@ const AttackChart = () => {
   }, []);
 
   return (
-    <div className="w-full h-full">
-      <div
-        style={{
-          marginBottom: "20px",
-          padding: "10px",
-          backgroundColor: "#f5f5f5",
-          borderRadius: "5px",
-        }}
-      >
-        <h3 style={{ margin: "0 0 10px 0", color: "#d32f2f" }}>
+    <div className="flex flex-col h-full w-full ">
+      {/* Header */}
+      <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border">
+        <h3 className="text-lg font-semibold text-red-700 ">
           Network Attack Dashboard
         </h3>
-        <p style={{ margin: 0, fontSize: "14px", color: "#666" }}>
-          Showing attack frequency from different IP addresses (hover to view
-          details).
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          Showing attack frequency from different IP addresses
         </p>
       </div>
-      <div ref={chartRef} style={{ width: "100%", height: "500px" }} />
+
+      {/* Chart Container */}
+      <div ref={chartRef} className="w-full h-[500px]" />
     </div>
   );
 };

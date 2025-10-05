@@ -10,7 +10,6 @@ const HomePage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
         <div className="w-full min-h-[450px] lg:min-h-[550px] xl:min-h-[600px] bg-card rounded-xl border shadow-sm p-6">
           <div className="flex flex-col h-full">
-            <h2 className="text-xl font-semibold text-foreground mb-4"></h2>
             <div className="flex-1 min-h-0">
               <Bar />
             </div>
@@ -20,9 +19,6 @@ const HomePage = () => {
         {/* Pie Chart - Extra large */}
         <div className="w-full min-h-[450px] lg:min-h-[550px] xl:min-h-[600px] bg-card rounded-xl border shadow-sm p-6">
           <div className="flex flex-col h-full">
-            <h2 className="text-xl font-semibold text-foreground mb-4">
-              Spending Distribution
-            </h2>
             <div className="flex-1 min-h-0">
               <Pie />
             </div>
@@ -32,9 +28,6 @@ const HomePage = () => {
         {/* XY Chart - Extra large */}
         <div className="w-full min-h-[550px] lg:min-h-[650px] xl:min-h-[700px] bg-card rounded-xl border shadow-sm p-6 lg:col-span-2">
           <div className="flex flex-col h-full">
-            <h2 className="text-xl font-semibold text-foreground mb-4">
-              Financial Trends
-            </h2>
             <div className="flex-1 min-h-0">
               <XY />
             </div>
