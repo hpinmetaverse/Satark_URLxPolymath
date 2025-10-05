@@ -64,16 +64,10 @@ const PieChart = ({
     series.labels.template.set("fontSize", 12);
 
     series.slices.template.adapters.add("radius", (radius, target) => {
-      // Ensure radius is a number
       const r = radius ?? 0;
-
-      // Access your custom field safely
       const value =
         ((target.dataItem as any)?.get("valueWorking") as number) ?? 0;
-
-      // Get series high value safely
       const high = (series.getPrivate("valueHigh") as number) ?? 1;
-
       return (r * value) / high;
     });
 
@@ -89,7 +83,6 @@ const PieChart = ({
       })
     );
 
-    // Responsive legend settings
     legend.labels.template.setAll({
       fontSize: 8,
       maxWidth: 120,
@@ -99,24 +92,19 @@ const PieChart = ({
 
     series.appear(1000, 100);
 
-    // Handle resize
     const handleResize = () => {
       if (chartRef.current) {
         const containerWidth = chartRef.current.clientWidth;
 
-        // Adjust legend layout based on container width
         if (containerWidth < 640) {
-          // Mobile: horizontal layout with smaller font
           legend.set("layout", root.horizontalLayout);
           legend.labels.template.set("fontSize", 10);
           series.labels.template.set("fontSize", 10);
         } else if (containerWidth < 768) {
-          // Tablet: horizontal layout
           legend.set("layout", root.horizontalLayout);
           legend.labels.template.set("fontSize", 11);
           series.labels.template.set("fontSize", 11);
         } else {
-          // Desktop: default layout
           legend.set("layout", root.horizontalLayout);
           legend.labels.template.set("fontSize", 12);
           series.labels.template.set("fontSize", 12);
@@ -126,10 +114,7 @@ const PieChart = ({
       }
     };
 
-    // Initial resize
     handleResize();
-
-    // Add resize listener
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -154,9 +139,7 @@ const PieChart = ({
 // Main Component
 export default function PcapUpload() {
   const [file, setFile] = useState<File | null>(null);
-
   const [status, setStatus] = useState<UploadStatus>("idle");
-
   const [results, setResults] = useState<AttackResult[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -189,11 +172,9 @@ export default function PcapUpload() {
       const err = validateFile(f);
       if (err) {
         setFile(null);
-
         return;
       }
       setFile(f);
-
       setStatus("idle");
       setResults([]);
     },
@@ -210,6 +191,7 @@ export default function PcapUpload() {
     if (!e.dataTransfer.files || !e.dataTransfer.files[0]) return;
     onFile(e.dataTransfer.files[0]);
   };
+
   const handleDragOver = (e: React.DragEvent) => e.preventDefault();
 
   const handleAnalyze = () => {
@@ -391,6 +373,8 @@ export default function PcapUpload() {
                 <button
                   onClick={() => {
                     setFile(null);
+                    setResults([]);
+                    setStatus("idle");
                   }}
                   className="p-2 rounded-md text-red-600 hover:bg-red-100 flex items-center justify-center"
                 >
@@ -402,7 +386,7 @@ export default function PcapUpload() {
         </div>
 
         {/* Results Section */}
-        {results.length > 0 && (
+        {file && results.length > 0 && (
           <div className="bg-white rounded-xl xs:rounded-2xl shadow-lg border border-gray-200 p-3 xs:p-4 sm:p-6 mb-4 xs:mb-6">
             <p className="mb-2 text-xs xs:text-sm text-gray-500">
               Summary of detected attack attempts and successful exploits.
