@@ -1,17 +1,17 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useRef } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
 const XY = () => {
-  useLayoutEffect(() => {
-    // Create root
-    const root = am5.Root.new("chartdiv");
+  const chartRef = useRef<HTMLDivElement>(null);
 
-    // Set themes
+  useLayoutEffect(() => {
+    if (!chartRef.current) return;
+
+    const root = am5.Root.new(chartRef.current);
     root.setThemes([am5themes_Animated.new(root)]);
 
-    // Create chart
     const chart = root.container.children.push(
       am5xy.XYChart.new(root, {
         panX: true,
@@ -23,16 +23,13 @@ const XY = () => {
       })
     );
 
-    // Add cursor
     const cursor = chart.set(
       "cursor",
-      am5xy.XYCursor.new(root, {
-        behavior: "none",
-      })
+      am5xy.XYCursor.new(root, { behavior: "none" })
     );
     cursor.lineY.set("visible", false);
 
-    // Generate random data
+    // Generate data
     let date = new Date();
     date.setHours(0, 0, 0, 0);
     let value = 100;
@@ -43,7 +40,7 @@ const XY = () => {
       return {
         date: date.getTime(),
         attempts: value,
-        success: Math.max(0, value - Math.round(Math.random() * 20)), // fewer successful attempts
+        success: Math.max(0, value - Math.round(Math.random() * 20)),
       };
     }
 
@@ -55,13 +52,29 @@ const XY = () => {
       return data;
     }
 
-    // Create axes
+    // Axes
     const xAxis = chart.xAxes.push(
       am5xy.DateAxis.new(root, {
         maxDeviation: 0.2,
         baseInterval: { timeUnit: "day", count: 1 },
         renderer: am5xy.AxisRendererX.new(root, { minorGridEnabled: true }),
         tooltip: am5.Tooltip.new(root, {}),
+      })
+    );
+
+    // Remove month names, show only day numbers (01, 02, 03…)
+    xAxis.get("renderer").labels.template.setAll({
+      text: "{value.formatDate('dd')}",
+    });
+
+    // Optional: Add X-axis title
+    xAxis.children.push(
+      am5.Label.new(root, {
+        text: "    ",
+        fontSize: 14,
+        fontWeight: "bold",
+        paddingTop: 10,
+        centerX: am5.p50,
       })
     );
 
@@ -75,13 +88,11 @@ const XY = () => {
     const series1 = chart.series.push(
       am5xy.LineSeries.new(root, {
         name: "Attack Attempts",
-        xAxis: xAxis,
-        yAxis: yAxis,
+        xAxis,
+        yAxis,
         valueYField: "attempts",
         valueXField: "date",
-        tooltip: am5.Tooltip.new(root, {
-          labelText: "Attempts: {valueY}",
-        }),
+        tooltip: am5.Tooltip.new(root, { labelText: "Attempts: {valueY}" }),
         stroke: am5.color(0xe74c3c),
       })
     );
@@ -90,24 +101,28 @@ const XY = () => {
     const series2 = chart.series.push(
       am5xy.LineSeries.new(root, {
         name: "Successful Attempts",
-        xAxis: xAxis,
-        yAxis: yAxis,
+        xAxis,
+        yAxis,
         valueYField: "success",
         valueXField: "date",
-        tooltip: am5.Tooltip.new(root, {
-          labelText: "Successful: {valueY}",
-        }),
+        tooltip: am5.Tooltip.new(root, { labelText: "Successful: {valueY}" }),
         stroke: am5.color(0x27ae60),
+        fill: am5.color(0x27ae60),
       })
     );
 
-    // Add scrollbar
+    // Fill under Successful Attempts
+    series2.fills.template.setAll({
+      fillOpacity: 0.2,
+      visible: true,
+    });
+
+    // Scrollbar & Legend
     chart.set(
       "scrollbarX",
       am5.Scrollbar.new(root, { orientation: "horizontal" })
     );
 
-    // Add legend
     const legend = chart.children.push(
       am5.Legend.new(root, {
         centerX: am5.p50,
@@ -133,7 +148,13 @@ const XY = () => {
     };
   }, []);
 
-  return <div id="chartdiv" style={{ width: "100%", height: "500px" }} />;
+  return (
+    <div
+      ref={chartRef}
+      className="w-full h-full"
+      style={{ minHeight: "100%", height: "100%" }}
+    />
+  );
 };
 
 export default XY;
