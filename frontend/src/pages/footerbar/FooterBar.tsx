@@ -8,8 +8,8 @@ const FooterBar = () => {
       <div className="flex flex-col items-center justify-center space-y-3">
         {/* Logo above the text */}
         <img
-          src="/vite.svg"
-          className="h-12 w-12 rounded-lg"
+          src="/image.png"
+          className="h-20 w-25 rounded-lg"
           alt="SATARK Logo"
         />
 

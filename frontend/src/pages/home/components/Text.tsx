@@ -2,14 +2,13 @@ export default function Text() {
   return (
     <div className="max-w-6xl mx-auto p-4 sm:p-6 text-center mt-6">
       {/* Heading */}
-      <h1 className="text-5xl sm:text-4xl md:text-6xl lg:text-6xl text-gray-500 font-bold mb-8">
+      <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-400 tracking-wide mb-6">
         SatarkURL
       </h1>
 
       {/* Subheading / Description */}
-      <p className="text-base sm:text-lg mt-4 mb-6 text-gray-400 leading-relaxed">
-        Detect URL-based attacks like SQLi, XSS, SSRF, and webshells using IPDR
-        & PCAP with hybrid rule-based + ML detection.
+      <p className="max-w-xl mx-auto text-base sm:text-lg md:text-xl text-gray-400 leading-relaxed ">
+        Unmasking Cyber Threats, Instantly
       </p>
 
       {/* Quick Start / Instructions */}

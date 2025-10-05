@@ -18,8 +18,8 @@ const Topbar = () => {
       <div className="flex items-center gap-2">
         <Link to="/" className="flex items-center gap-2">
           <img
-            src="/A.png"
-            className="h-20 w-20 rounded-lg"
+            src="/image.png"
+            className="h-20 w-30 rounded-lg"
             alt="Satark Logo"
           />
         </Link>
