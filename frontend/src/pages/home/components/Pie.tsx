@@ -3,62 +3,115 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5percent from "@amcharts/amcharts5/percent";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
-const Pie = () => {
+const Bar = () => {
   const chartRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     if (!chartRef.current) return;
 
-    // Create root element
     const root = am5.Root.new(chartRef.current);
-
-    // Set themes
     root.setThemes([am5themes_Animated.new(root)]);
 
-    // Create chart
     let chart = root.container.children.push(
       am5percent.PieChart.new(root, {
         layout: root.verticalLayout,
+        innerRadius: am5.percent(50),
       })
     );
 
-    // Create series
+    // Set data with success rates
+    let data = [
+      {
+        attackType: "SQL Injection",
+        attempts: 156,
+        successful: 23,
+        successRate: Math.round((23 / 156) * 100),
+      },
+      {
+        attackType: "XSS",
+        attempts: 234,
+        successful: 18,
+        successRate: Math.round((18 / 234) * 100),
+      },
+      {
+        attackType: "Directory Traversal",
+        attempts: 89,
+        successful: 12,
+        successRate: Math.round((12 / 89) * 100),
+      },
+      {
+        attackType: "Command Injection",
+        attempts: 67,
+        successful: 8,
+        successRate: Math.round((8 / 67) * 100),
+      },
+      {
+        attackType: "SSRF",
+        attempts: 45,
+        successful: 5,
+        successRate: Math.round((5 / 45) * 100),
+      },
+      {
+        attackType: "File Inclusion",
+        attempts: 78,
+        successful: 9,
+        successRate: Math.round((9 / 78) * 100),
+      },
+      {
+        attackType: "Brute Force",
+        attempts: 345,
+        successful: 45,
+        successRate: Math.round((45 / 345) * 100),
+      },
+      {
+        attackType: "Web Shell Upload",
+        attempts: 23,
+        successful: 3,
+        successRate: Math.round((3 / 23) * 100),
+      },
+    ];
+
     let series = chart.series.push(
       am5percent.PieSeries.new(root, {
-        alignLabels: true,
-        calculateAggregates: true,
-        valueField: "value",
-        categoryField: "category",
+        name: "Attack Types",
+        categoryField: "attackType",
+        valueField: "attempts",
+        alignLabels: false,
       })
     );
 
-    series.slices.template.setAll({
-      strokeWidth: 3,
-      stroke: am5.color(0xffffff),
+    series.data.setAll(data);
+
+    // Remove slice labels
+    series.labels.template.set("forceHidden", true);
+
+    // Configure tooltip using the built-in tooltip functionality
+    series.set(
+      "tooltip",
+      am5.Tooltip.new(root, {
+        labelText:
+          "{attackType}\n\nAttempts: {attempts}\nSuccessful: {successful}\nSuccess Rate: {successRate}%",
+      })
+    );
+
+    // Style the tooltip
+    series
+      .get("tooltip")!
+      .get("background")!
+      .setAll({
+        fill: am5.color(0x000000),
+        fillOpacity: 0.9,
+        strokeWidth: 1,
+        stroke: am5.color(0xffffff),
+      });
+
+    series.get("tooltip")!.label.setAll({
+      fill: am5.color(0xffffff),
+      fontSize: 14,
+      textAlign: "center",
     });
 
-    // Increased label padding for better visibility with larger chart
-    series.labelsContainer.set("paddingTop", 40);
-
-    // Slice radius adapters
-    series.slices.template.adapters.add("radius", (radius, target) => {
-      const high = (series.getPrivate("valueHigh") as number) ?? 1;
-      const value =
-        ((target.dataItem as any)?.get("valueWorking") as number) ?? 0;
-      return ((radius ?? 0) * value) / high;
-    });
-
-    // Set data
-    series.data.setAll([
-      { value: 10, category: "One" },
-      { value: 9, category: "Two" },
-      { value: 6, category: "Three" },
-      { value: 5, category: "Four" },
-      { value: 4, category: "Five" },
-      { value: 3, category: "Six" },
-    ]);
-
-    // Create legend with better positioning for larger chart
+    // Add legend
     let legend = chart.children.push(
       am5.Legend.new(root, {
         centerX: am5.p50,
@@ -68,15 +121,16 @@ const Pie = () => {
       })
     );
 
+    legend.labels.template.setAll({
+      fontSize: 10,
+      fill: am5.color(0x666666),
+    });
+
     legend.data.setAll(series.dataItems);
 
-    // Make chart responsive
-    root.resize();
-
-    // Animate
     series.appear(1000, 100);
+    chart.appear(1000, 100);
 
-    // Cleanup when component unmounts
     return () => {
       root.dispose();
     };
@@ -85,4 +139,4 @@ const Pie = () => {
   return <div ref={chartRef} className="w-full h-full" />;
 };
 
-export default Pie;
+export default Bar;

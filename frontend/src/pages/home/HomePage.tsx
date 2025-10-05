@@ -8,12 +8,9 @@ const HomePage = () => {
     <div className="min-h-screen bg-background">
       <Text />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
-        {/* Income & Expenses Chart - Extra large */}
         <div className="w-full min-h-[450px] lg:min-h-[550px] xl:min-h-[600px] bg-card rounded-xl border shadow-sm p-6">
           <div className="flex flex-col h-full">
-            <h2 className="text-xl font-semibold text-foreground mb-4">
-              Income vs Expenses
-            </h2>
+            <h2 className="text-xl font-semibold text-foreground mb-4"></h2>
             <div className="flex-1 min-h-0">
               <Bar />
             </div>

@@ -3,17 +3,23 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
-const Bar = () => {
+interface AttackData {
+  ip: string;
+  attacks: number;
+  country: string;
+  severity: "High" | "Medium" | "Low";
+}
+
+const AttackChart = () => {
   const chartRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     if (!chartRef.current) return;
 
-    let root = am5.Root.new(chartRef.current);
-
+    const root = am5.Root.new(chartRef.current);
     root.setThemes([am5themes_Animated.new(root)]);
-
-    let chart = root.container.children.push(
+    root.numberFormatter.set("numberFormat", "#");
+    const chart = root.container.children.push(
       am5xy.XYChart.new(root, {
         panX: false,
         panY: false,
@@ -24,8 +30,6 @@ const Bar = () => {
       })
     );
 
-    // Responsive font sizes
-    root.interfaceColors.set("grid", am5.color(0x000000));
     root.interfaceColors.set("grid", am5.color(0x000000));
 
     chart.set(
@@ -33,50 +37,82 @@ const Bar = () => {
       am5.Scrollbar.new(root, { orientation: "horizontal" })
     );
 
-    let data = [
-      { year: "2016", income: 23.5, expenses: 21.1 },
-      { year: "2017", income: 26.2, expenses: 30.5 },
-      { year: "2018", income: 30.1, expenses: 34.9 },
-      { year: "2019", income: 29.5, expenses: 31.1 },
+    // Attack data
+    const data: AttackData[] = [
+      { ip: "192.168.1.45", attacks: 2345, country: "USA", severity: "High" },
+      { ip: "10.0.2.178", attacks: 1876, country: "China", severity: "High" },
       {
-        year: "2020",
-        income: 30.6,
-        expenses: 28.2,
-        strokeSettings: {
-          strokeWidth: 3,
-          strokeDasharray: [5, 5],
-        },
+        ip: "172.16.8.92",
+        attacks: 1543,
+        country: "Russia",
+        severity: "Medium",
       },
       {
-        year: "2021",
-        income: 34.1,
-        expenses: 32.9,
-        columnSettings: {
-          strokeWidth: 1,
-          strokeDasharray: [5],
-          fillOpacity: 0.2,
-        },
-        info: "(projection)",
+        ip: "203.0.113.45",
+        attacks: 987,
+        country: "Brazil",
+        severity: "Medium",
       },
+      {
+        ip: "198.51.100.23",
+        attacks: 765,
+        country: "India",
+        severity: "Medium",
+      },
+      { ip: "192.0.2.156", attacks: 543, country: "Germany", severity: "Low" },
+      { ip: "203.0.113.89", attacks: 432, country: "France", severity: "Low" },
+      { ip: "198.51.100.67", attacks: 321, country: "Japan", severity: "Low" },
+      { ip: "192.0.2.234", attacks: 210, country: "UK", severity: "Low" },
+      { ip: "203.0.113.12", attacks: 198, country: "Canada", severity: "Low" },
     ];
 
-    // Axes
-    let xRenderer = am5xy.AxisRendererX.new(root, {
+    data.sort((a, b) => b.attacks - a.attacks);
+
+    // X Axis
+    const xRenderer = am5xy.AxisRendererX.new(root, {
+      minGridDistance: 50,
       minorGridEnabled: true,
-      minGridDistance: 60,
     });
 
-    let xAxis = chart.xAxes.push(
+    const xAxis = chart.xAxes.push(
       am5xy.CategoryAxis.new(root, {
-        categoryField: "year",
+        categoryField: "ip",
         renderer: xRenderer,
         tooltip: am5.Tooltip.new(root, {}),
       })
     );
-    xRenderer.grid.template.setAll({ location: 1 });
+
     xAxis.data.setAll(data);
 
-    let yAxis = chart.yAxes.push(
+    // ✅ Show IPs with severity below each
+    xAxis.get("renderer").labels.template.setAll({
+      rotation: -45,
+      centerY: am5.p50,
+      dy: 10,
+      fontSize: 12,
+      fill: am5.color(0x333333),
+      oversizedBehavior: "wrap",
+      textAlign: "center",
+    });
+
+    // ✅ Add severity label below IP, color-coded
+    xAxis
+      .get("renderer")
+      .labels.template.adapters.add("text", (text, target) => {
+        const dataItem = target.dataItem?.dataContext as AttackData;
+        if (dataItem) {
+          let color = "#999999";
+          if (dataItem.severity === "High") color = "#ff6b6b";
+          else if (dataItem.severity === "Medium") color = "#ffa726";
+          else if (dataItem.severity === "Low") color = "#42a5f5";
+
+          return `${dataItem.ip}\n[fontSize:10px][${color}]${dataItem.severity}[/]`;
+        }
+        return text;
+      });
+
+    // Y Axis
+    const yAxis = chart.yAxes.push(
       am5xy.ValueAxis.new(root, {
         min: 0,
         extraMax: 0.1,
@@ -84,78 +120,92 @@ const Bar = () => {
       })
     );
 
+    // Y-axis label
+    chart.leftAxesContainer.children.push(
+      am5.Label.new(root, {
+        text: "Number of Attacks",
+        rotation: -90,
+        y: am5.p50,
+        centerX: am5.p50,
+        fontWeight: "600",
+        fontSize: 13,
+      })
+    );
+
+    // Color set for severity
+    const colorSet = am5.ColorSet.new(root, {
+      colors: [am5.color(0xff6b6b), am5.color(0xffa726), am5.color(0x42a5f5)],
+    });
+
     // Series
-    let series1 = chart.series.push(
+    const series1 = chart.series.push(
       am5xy.ColumnSeries.new(root, {
-        name: "Income",
+        name: "Attack Count",
         xAxis,
         yAxis,
-        valueYField: "income",
-        categoryXField: "year",
+        valueYField: "attacks",
+        categoryXField: "ip",
         tooltip: am5.Tooltip.new(root, {
           pointerOrientation: "horizontal",
-          labelText: "{name} in {categoryX}: {valueY} {info}",
+          labelText:
+            "IP: {categoryX}\nAttacks: {valueY}\nCountry: {country}\nSeverity: {severity}",
         }),
       })
     );
+
+    // Color columns by severity
+    series1.columns.template.adapters.add("fill", (fill, target) => {
+      const dataItem = target.dataItem?.dataContext as AttackData;
+      if (!dataItem) return fill;
+      switch (dataItem.severity) {
+        case "High":
+          return colorSet.getIndex(0);
+        case "Medium":
+          return colorSet.getIndex(1);
+        case "Low":
+          return colorSet.getIndex(2);
+      }
+      return fill;
+    });
+
     series1.columns.template.setAll({
       tooltipY: am5.percent(10),
-      templateField: "columnSettings",
+      strokeWidth: 2,
+      cornerRadiusTL: 3,
+      cornerRadiusTR: 3,
     });
+
     series1.data.setAll(data);
 
-    let series2 = chart.series.push(
-      am5xy.LineSeries.new(root, {
-        name: "Expenses",
-        xAxis,
-        yAxis,
-        valueYField: "expenses",
-        categoryXField: "year",
-        tooltip: am5.Tooltip.new(root, {
-          pointerOrientation: "horizontal",
-          labelText: "{name} in {categoryX}: {valueY} {info}",
-        }),
-      })
-    );
-    series2.strokes.template.setAll({
-      strokeWidth: 3,
-      templateField: "strokeSettings",
-    });
-    series2.data.setAll(data);
-
-    series2.bullets.push(() =>
-      am5.Bullet.new(root, {
-        sprite: am5.Circle.new(root, {
-          strokeWidth: 3,
-          stroke: series2.get("stroke"),
-          radius: 5,
-          fill: root.interfaceColors.get("background"),
-        }),
-      })
-    );
-
     chart.set("cursor", am5xy.XYCursor.new(root, {}));
-
-    let legend = chart.children.push(
-      am5.Legend.new(root, {
-        centerX: am5.p50,
-        x: am5.p50,
-      })
-    );
-    legend.data.setAll(chart.series.values);
-
-    // Make chart responsive
-    root.resize();
 
     chart.appear(1000, 100);
     series1.appear();
 
-    return () => {
-      root.dispose();
-    };
+    return () => root.dispose();
   }, []);
 
-  return <div ref={chartRef} className="w-full h-full" />;
+  return (
+    <div className="w-full h-full">
+      <div
+        style={{
+          marginBottom: "20px",
+          padding: "10px",
+          backgroundColor: "#f5f5f5",
+          borderRadius: "5px",
+        }}
+      >
+        <h3 style={{ margin: "0 0 10px 0", color: "#d32f2f" }}>
+          Network Attack Dashboard
+        </h3>
+        <p style={{ margin: 0, fontSize: "14px", color: "#666" }}>
+          Showing attack frequency from different IP addresses (hover to view
+          details).
+        </p>
+      </div>
+      <div ref={chartRef} style={{ width: "100%", height: "500px" }} />
+    </div>
+  );
 };
 
-export default Bar;
+export default AttackChart;
