@@ -1,10 +1,12 @@
 import Pie from "./components/Pie";
 import XY from "./components/XY";
 import Bar from "./components/Bar";
+import Text from "./components/Text";
 
 const HomePage = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Text />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
         {/* Income & Expenses Chart - Extra large */}
         <div className="w-full min-h-[450px] lg:min-h-[550px] xl:min-h-[600px] bg-card rounded-xl border shadow-sm p-6">
