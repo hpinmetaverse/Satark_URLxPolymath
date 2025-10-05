@@ -22,6 +22,16 @@ const XY = () => {
         paddingLeft: 0,
       })
     );
+    chart.leftAxesContainer.children.push(
+      am5.Label.new(root, {
+        text: "Number of Attempts",
+        rotation: -90,
+        y: am5.p50,
+        centerX: am5.p50,
+        fontWeight: "600",
+        fontSize: 13,
+      })
+    );
 
     const cursor = chart.set(
       "cursor",
