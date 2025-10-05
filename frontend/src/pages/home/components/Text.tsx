@@ -1,66 +1,65 @@
-import { motion } from "framer-motion";
-
 export default function Text() {
   return (
-    <motion.div
-      className="max-w-3xl mx-auto p-6 text-center"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-    >
+    <div className="max-w-6xl mx-auto p-4 sm:p-6 text-center mt-6">
       {/* Heading */}
-      <motion.h1
-        className="text-4xl text-gray-500 font-bold mb-4"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.8 }}
-      >
-        Satark - URL Threat Detection & Forensics
-      </motion.h1>
+      <h1 className="text-5xl sm:text-4xl md:text-6xl lg:text-6xl text-gray-500 font-bold mb-8">
+        SatarkURL
+      </h1>
 
       {/* Subheading / Description */}
-      <motion.p
-        className="text-lg mb-6 text-gray-400"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4, duration: 0.8 }}
-      >
-        Detect and investigate URL-based cyber-attacks in HTTP traffic using
-        IPDR and PCAP analysis. Supports typosquatting, SQL injection, XSS,
-        SSRF, command injection, webshells, and more. Hybrid detection with
-        rule-based IDS and machine learning models, plus visualization and
-        export.
-      </motion.p>
+      <p className="text-base sm:text-lg mt-4 mb-6 text-gray-400 leading-relaxed">
+        Detect URL-based attacks like SQLi, XSS, SSRF, and webshells using IPDR
+        & PCAP with hybrid rule-based + ML detection.
+      </p>
 
       {/* Quick Start / Instructions */}
-      <motion.div
-        className="bg-white/5 border border-white/10 rounded-lg p-6 mb-6 text-left"
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.6, duration: 0.8 }}
-      >
-        <h2 className="text-2xl font-semibold mb-3 text-gray-500">
+      <div className="bg-white/5 border border-white/10 rounded-lg p-4 sm:p-6 mb-6 text-left">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-3 text-gray-500">
           Quick Start
         </h2>
-        <ul className="list-disc text-gray-400 list-inside space-y-2">
-          <li>Upload PCAP files.</li>
-          <li>
-            Choose analysis profile: <strong>Fast (rules)</strong> or{" "}
-            <strong>Thorough (rules + ML)</strong>.
+        <ul className="text-gray-400 space-y-3">
+          <li className="flex items-start">
+            <span className="min-w-[6px] h-[6px] bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+            <span>Upload PCAP files.</span>
           </li>
-          <li>
-            Click <strong>Run Analysis</strong> to start detection.
+          <li className="flex items-start">
+            <span className="min-w-[6px] h-[6px] bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+            <span>
+              Choose analysis profile: <strong>Fast (rules)</strong> or{" "}
+              <strong>Thorough (rules + ML)</strong>.
+            </span>
           </li>
-          <li>
-            Filter results by{" "}
-            <strong>attack type, IP, status (attempt/success), or time</strong>.
+          <li className="flex items-start">
+            <span className="min-w-[6px] h-[6px] bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+            <span>
+              Click <strong>Run Analysis</strong> to start detection.
+            </span>
           </li>
-          <li>
-            Export results as <strong>CSV</strong> or <strong>JSON</strong> for
-            reporting.
+          <li className="flex items-start">
+            <span className="min-w-[6px] h-[6px] bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+            <span>
+              Filter results by{" "}
+              <strong>
+                attack type, IP, status (attempt/success), or time
+              </strong>
+              .
+            </span>
+          </li>
+          <li className="flex items-start">
+            <span className="min-w-[6px] h-[6px] bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+            <span>
+              Receive real-time alerts via Slack/Teams/Telegram/email for
+              suspicious or successful attacks.
+            </span>
+          </li>
+          <li className="flex items-start">
+            <span className="min-w-[6px] h-[6px] bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+            <span>
+              Set up automated reporting and exports to generate CSV/JSON.
+            </span>
           </li>
         </ul>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }

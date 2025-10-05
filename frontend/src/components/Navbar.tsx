@@ -19,12 +19,9 @@ const Topbar = () => {
         <Link to="/" className="flex items-center gap-2">
           <img
             src="/A.png"
-            className="h-10 w-10 rounded-lg"
+            className="h-20 w-20 rounded-lg"
             alt="Satark Logo"
           />
-          <span className="text-xl font-semibold text-gray-800 hidden sm:block">
-            SATARK
-          </span>
         </Link>
       </div>
 
