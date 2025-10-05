@@ -29,28 +29,25 @@ const XY = () => {
     );
     cursor.lineY.set("visible", false);
 
-    // Generate data
-    let date = new Date();
-    date.setHours(0, 0, 0, 0);
+    // Generate data from Sep 1, 2025 to Oct 5, 2025
+    const startDate = new Date(2025, 8, 1); // month is 0-based → 8 = Sep
+    const endDate = new Date(2025, 9, 5); // 9 = Oct
     let value = 100;
 
-    function generateData() {
-      value = Math.round(Math.random() * 10 - 5 + value);
-      am5.time.add(date, "day", 1);
-      return {
-        date: date.getTime(),
-        attempts: value,
-        success: Math.max(0, value - Math.round(Math.random() * 20)),
-      };
-    }
-
-    function generateDatas(count: number) {
+    const generateDatas = () => {
       const data = [];
-      for (let i = 0; i < count; ++i) {
-        data.push(generateData());
+      let date = new Date(startDate);
+      while (date <= endDate) {
+        value = Math.round(Math.random() * 10 - 5 + value);
+        data.push({
+          date: date.getTime(),
+          attempts: value,
+          success: Math.max(0, value - Math.round(Math.random() * 20)),
+        });
+        am5.time.add(date, "day", 1);
       }
       return data;
-    }
+    };
 
     // Axes
     const xAxis = chart.xAxes.push(
@@ -62,21 +59,10 @@ const XY = () => {
       })
     );
 
-    // Remove month names, show only day numbers (01, 02, 03…)
     xAxis.get("renderer").labels.template.setAll({
-      text: "{value.formatDate('dd')}",
+      fontSize: 10,
+      rotation: -45, // optional for readability
     });
-
-    // Optional: Add X-axis title
-    xAxis.children.push(
-      am5.Label.new(root, {
-        text: "    ",
-        fontSize: 14,
-        fontWeight: "bold",
-        paddingTop: 10,
-        centerX: am5.p50,
-      })
-    );
 
     const yAxis = chart.yAxes.push(
       am5xy.ValueAxis.new(root, {
@@ -84,10 +70,9 @@ const XY = () => {
       })
     );
 
-    // Series 1 - Total Attempts
+    // Series
     const series1 = chart.series.push(
       am5xy.LineSeries.new(root, {
-        name: "Attack Attempts",
         xAxis,
         yAxis,
         valueYField: "attempts",
@@ -97,10 +82,8 @@ const XY = () => {
       })
     );
 
-    // Series 2 - Successful Attempts
     const series2 = chart.series.push(
       am5xy.LineSeries.new(root, {
-        name: "Successful Attempts",
         xAxis,
         yAxis,
         valueYField: "success",
@@ -111,13 +94,11 @@ const XY = () => {
       })
     );
 
-    // Fill under Successful Attempts
     series2.fills.template.setAll({
       fillOpacity: 0.2,
       visible: true,
     });
 
-    // Scrollbar & Legend
     chart.set(
       "scrollbarX",
       am5.Scrollbar.new(root, { orientation: "horizontal" })
@@ -125,6 +106,7 @@ const XY = () => {
 
     const legend = chart.children.push(
       am5.Legend.new(root, {
+        layout: root.verticalLayout,
         centerX: am5.p50,
         x: am5.p50,
         y: am5.p100,
@@ -134,11 +116,10 @@ const XY = () => {
     legend.data.setAll(chart.series.values);
 
     // Set data
-    const data = generateDatas(120);
+    const data = generateDatas();
     series1.data.setAll(data);
     series2.data.setAll(data);
 
-    // Animate
     series1.appear(1000);
     series2.appear(1000);
     chart.appear(1000, 100);
@@ -149,11 +130,24 @@ const XY = () => {
   }, []);
 
   return (
-    <div
-      ref={chartRef}
-      className="w-full h-full"
-      style={{ minHeight: "100%", height: "100%" }}
-    />
+    <div className="flex flex-col h-full w-full">
+      {/* Header */}
+      <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border">
+        <h3 className="text-lg font-semibold text-red-700 ">
+          Network Attack Monitoring Dashboard
+        </h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          Showing attack attempts and their success rate
+        </p>
+      </div>
+
+      {/* Chart Container */}
+      <div
+        ref={chartRef}
+        className="w-full"
+        style={{ minHeight: "700px", height: "700px" }}
+      />
+    </div>
   );
 };
 

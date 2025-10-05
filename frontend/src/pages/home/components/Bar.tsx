@@ -36,6 +36,17 @@ const AttackChart = () => {
       "scrollbarX",
       am5.Scrollbar.new(root, { orientation: "horizontal" })
     );
+    // Y-axis label
+    chart.leftAxesContainer.children.push(
+      am5.Label.new(root, {
+        text: "Number of Attacks",
+        rotation: -90,
+        y: am5.p50,
+        centerX: am5.p50,
+        fontWeight: "600",
+        fontSize: 13,
+      })
+    );
 
     // Attack data
     const data: AttackData[] = [
@@ -120,18 +131,6 @@ const AttackChart = () => {
       })
     );
 
-    // Y-axis label
-    chart.leftAxesContainer.children.push(
-      am5.Label.new(root, {
-        text: "Number of Attacks",
-        rotation: -90,
-        y: am5.p50,
-        centerX: am5.p50,
-        fontWeight: "600",
-        fontSize: 13,
-      })
-    );
-
     // Color set for severity
     const colorSet = am5.ColorSet.new(root, {
       colors: [am5.color(0xff6b6b), am5.color(0xffa726), am5.color(0x42a5f5)],
@@ -190,7 +189,7 @@ const AttackChart = () => {
       {/* Header */}
       <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border">
         <h3 className="text-lg font-semibold text-red-700 ">
-          Network Attack Dashboard
+          IP Based Attack Dashboard
         </h3>
         <p className="text-sm text-gray-600 dark:text-gray-400">
           Showing attack frequency from different IP addresses

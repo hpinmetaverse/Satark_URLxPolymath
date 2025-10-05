@@ -26,7 +26,7 @@ const HomePage = () => {
         </div>
 
         {/* XY Chart - Extra large */}
-        <div className="w-full min-h-[550px] lg:min-h-[650px] xl:min-h-[700px] bg-card rounded-xl border shadow-sm p-6 lg:col-span-2">
+        <div className="w-full min-h-[580px] lg:min-h-[650px] xl:min-h-[700px] bg-card rounded-xl border shadow-sm p-6 lg:col-span-2">
           <div className="flex flex-col h-full">
             <div className="flex-1 min-h-0">
               <XY />

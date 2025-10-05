@@ -102,7 +102,7 @@ const Pie = () => {
       {/* Header */}
       <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border">
         <h3 className="text-lg font-semibold text-red-700 ">
-          Network Attack Dashboard
+          Network Attack Overview
         </h3>
         <p className="text-sm text-gray-600 dark:text-gray-400">
           Showing attack frequency and success rates for different attack types
