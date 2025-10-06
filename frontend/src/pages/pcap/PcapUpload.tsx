@@ -141,10 +141,13 @@ export default function PcapUpload() {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<UploadStatus>("idle");
   const [results, setResults] = useState<AttackResult[]>([]);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const MAX_SIZE_BYTES = 10 * 1024 * 1024;
   const ALLOWED_EXT = [".pcap", ".pcapng"];
+  // This demo flag indicates we are showing mock/demo results instead of real analysis
+  const demoMode = true;
 
   const humanFileSize = (bytes: number) => {
     if (bytes === 0) return "0 B";
@@ -172,8 +175,12 @@ export default function PcapUpload() {
       const err = validateFile(f);
       if (err) {
         setFile(null);
+        setErrorMsg(err);
+        setResults([]);
+        setStatus("error");
         return;
       }
+      setErrorMsg(null);
       setFile(f);
       setStatus("idle");
       setResults([]);
@@ -196,41 +203,54 @@ export default function PcapUpload() {
 
   const handleAnalyze = () => {
     if (!file) return;
+
+    // Reset any previous states
+    setResults([]);
+    setErrorMsg(null);
+
+    // Demo flow: uploading -> processing -> done with hardcoded results
     setStatus("uploading");
 
+    // make UI feel real with timeouts
     setTimeout(() => {
       setStatus("processing");
 
       setTimeout(() => {
         setStatus("done");
 
-        setResults([
-          {
-            type: "SQL Injection",
-            ip: "192.168.1.2",
-            url: "/login.php",
-            status: "Success",
-          },
-          {
-            type: "XSS",
-            ip: "192.168.1.5",
-            url: "/search?q=<script>",
-            status: "Attempt",
-          },
-          { type: "SSRF", ip: "10.0.0.12", url: "/fetch", status: "Success" },
-          {
-            type: "Brute Force",
-            ip: "192.168.1.8",
-            url: "/admin",
-            status: "Attempt",
-          },
-          {
-            type: "Path Traversal",
-            ip: "192.168.1.3",
-            url: "/../../etc/passwd",
-            status: "Success",
-          },
-        ]);
+        if (demoMode) {
+          // Hardcoded demo results (explicitly for demo)
+          setResults([
+            {
+              type: "SQL Injection",
+              ip: "192.168.1.2",
+              url: "/login.php",
+              status: "Success",
+            },
+            {
+              type: "XSS",
+              ip: "192.168.1.5",
+              url: "/search?q=<script>",
+              status: "Attempt",
+            },
+            { type: "SSRF", ip: "10.0.0.12", url: "/fetch", status: "Success" },
+            {
+              type: "Brute Force",
+              ip: "192.168.1.8",
+              url: "/admin",
+              status: "Attempt",
+            },
+            {
+              type: "Path Traversal",
+              ip: "192.168.1.3",
+              url: "/../../etc/passwd",
+              status: "Success",
+            },
+          ]);
+        } else {
+          // In non-demo mode, you'd call your backend analysis API here and setResults from response
+          setResults([]);
+        }
       }, 1000);
     }, 1000);
   };
@@ -262,6 +282,16 @@ export default function PcapUpload() {
     a.download = "pcap_results.json";
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleRemoveFile = () => {
+    setFile(null);
+    setResults([]);
+    setStatus("idle");
+    setErrorMsg(null);
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
   };
 
   // Prepare pie chart data
@@ -343,6 +373,13 @@ export default function PcapUpload() {
             </div>
           </div>
 
+          {/* validation / error message */}
+          {errorMsg && (
+            <div className="mt-3 p-3 rounded-md bg-red-50 border border-red-100 text-red-700 text-sm">
+              {errorMsg}
+            </div>
+          )}
+
           {file && (
             <div className="bg-gray-50 border border-gray-200 p-3 xs:p-4 rounded-md flex flex-col sm:flex-row sm:justify-between sm:items-center mt-3 xs:mt-4 shadow-sm gap-2 xs:gap-0">
               <div className="flex-1 min-w-0">
@@ -371,12 +408,9 @@ export default function PcapUpload() {
                 </button>
 
                 <button
-                  onClick={() => {
-                    setFile(null);
-                    setResults([]);
-                    setStatus("idle");
-                  }}
+                  onClick={handleRemoveFile}
                   className="p-2 rounded-md text-red-600 hover:bg-red-100 flex items-center justify-center"
+                  title="Remove file"
                 >
                   <Trash2 className="w-4 xs:w-5 h-4 xs:h-5" />
                 </button>
@@ -384,6 +418,23 @@ export default function PcapUpload() {
             </div>
           )}
         </div>
+
+        {/* Demo notice */}
+        {/* Demo notice */}
+        {file && status === "done" && results.length > 0 && demoMode && (
+          <div className="max-w-5xl mx-auto mb-4">
+            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded-md text-center">
+              <p className="text-sm xs:text-base text-yellow-800 mb-1">
+                <strong>Demo mode:</strong> The results shown below are{" "}
+                <strong>sample</strong> detections to demonstrate how the
+                analysis UI and exports work.
+              </p>
+              <p className="text-sm xs:text-base text-yellow-800 font-semibold">
+                Real PCAP analysis is currently work in progress.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Results Section */}
         {file && results.length > 0 && (
@@ -459,7 +510,13 @@ export default function PcapUpload() {
               <h3 className="text-lg font-semibold mb-3 xs:mb-4 text-gray-700">
                 Attack Status Distribution
               </h3>
-              <PieChart data={pieData} />
+              {pieData.length > 0 ? (
+                <PieChart data={pieData} />
+              ) : (
+                <p className="text-sm text-gray-500">
+                  No data to show in chart.
+                </p>
+              )}
             </div>
           </div>
         )}
