@@ -15,7 +15,7 @@ const FooterBar = () => {
 
         {/* Text below the logo */}
         <p className="text-sm text-gray-700 text-center">
-          &copy; {new Date().getFullYear()} SATARK. All rights reserved.
+          &copy; {new Date().getFullYear()} SatarkURL. All rights reserved.
         </p>
       </div>
     </nav>
