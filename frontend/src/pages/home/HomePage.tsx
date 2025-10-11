@@ -8,7 +8,11 @@ const HomePage = () => {
     <div className="min-h-screen bg-background">
       <Text />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
-        <div className="w-full min-h-[450px] lg:min-h-[550px] xl:min-h-[600px] bg-card rounded-xl border shadow-sm p-6">
+        {/* Bar Chart Section */}
+        <div
+          id="bar-section"
+          className="w-full min-h-[450px] lg:min-h-[550px] xl:min-h-[600px] bg-card rounded-xl border shadow-sm p-6"
+        >
           <div className="flex flex-col h-full">
             <div className="flex-1 min-h-0">
               <Bar />
@@ -16,7 +20,7 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* Pie Chart - Extra large */}
+        {/* Pie Chart */}
         <div className="w-full min-h-[450px] lg:min-h-[550px] xl:min-h-[600px] bg-card rounded-xl border shadow-sm p-6">
           <div className="flex flex-col h-full">
             <div className="flex-1 min-h-0">
@@ -25,7 +29,7 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* XY Chart - Extra large */}
+        {/* XY Chart */}
         <div className="w-full min-h-[580px] lg:min-h-[650px] xl:min-h-[700px] bg-card rounded-xl border shadow-sm p-6 lg:col-span-2">
           <div className="flex flex-col h-full">
             <div className="flex-1 min-h-0">

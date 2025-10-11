@@ -1,13 +1,33 @@
+import { ChevronDown } from "lucide-react"; // using lucide-react for the arrow icon
+
 export default function Text() {
+  const handleScrollToBar = () => {
+    const barSection = document.getElementById("bar-section");
+    if (barSection) {
+      barSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="max-w-6xl mx-auto p-4 sm:p-6 text-center mt-6">
+    <div className="relative max-w-6xl mx-auto p-4 sm:p-6 text-center mt-6">
+      {/* Scroll Down Button (Top Right) */}
+      <div className="absolute right-6 top-6">
+        <button
+          onClick={handleScrollToBar}
+          className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-400 hover:bg-white text-black shadow-md transition"
+          aria-label="Scroll to Bar Chart"
+        >
+          <ChevronDown className="w-5 h-5" />
+        </button>
+      </div>
+
       {/* Heading */}
       <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-700 tracking-wide mb-6">
         SatarkURL
       </h1>
 
       {/* Subheading / Description */}
-      <p className="max-w-xl mx-auto text-base sm:text-lg md:text-xl text-gray-400 leading-relaxed ">
+      <p className="max-w-xl mx-auto text-base sm:text-lg md:text-xl text-gray-400 leading-relaxed">
         Unmasking Cyber Threats, Instantly
       </p>
 
